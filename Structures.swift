@@ -34,3 +34,17 @@ struct Die
         self.sum = brains + runners + shotguns
     }
 }
+struct Dice
+{
+    var green: UInt
+    var yellow: UInt
+    var red: UInt
+    init(green: UInt, yellow: UInt, red: UInt)
+    {
+        self.green = green
+        self.yellow = yellow
+        self.red = red
+    }
+    
+}
+
