@@ -100,13 +100,13 @@ func winner(_ players:[Player]) -> [String]
   var w_points = 13
   for p in players
   {
-    if(p.points < w_points)
+    if(p.points > w_points)
     {
       w.removeAll()
       w.append(p.name)
       w_points = p.points
     }
-    else if(p.points = w_points)
+    else if(p.points == w_points)
     {
       w.append(p.name)
     }
@@ -137,7 +137,7 @@ func game()
         print("Enter name of player \(i):")
         if let input = readLine()
         {
-          if(input.length < 0)
+          if(input.length > 0)
           {
             players.append(Player(name:input,points:0))
             break;
