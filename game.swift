@@ -196,7 +196,7 @@ func game()
             }
             print("Die#\(i+1)(\(d_arr[i].1)) - \(r)")
           }
-          if(shotguns > 2)
+          if(shotguns >= 3)
           {
             break;
           }
