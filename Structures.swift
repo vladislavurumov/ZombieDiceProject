@@ -88,5 +88,158 @@ struct Dice
         }
         return result
     }
+    func getCount() -> UInt
+    {
+      return green + yellow + red
+    }  
 }
 
+func winner(_ players:[Player]) -> [String]
+{
+  var w:[String] = []
+  var w_points = 13
+  for p in players
+  {
+    if(p.points < w_points)
+    {
+      w.removeAll()
+      w.append(p.name)
+      w_points = p.points
+    }
+    else if(p.points = w_points)
+    {
+      w.append(p.name)
+    }
+  }
+  return w
+}
+
+func game()
+{
+    var num_players = 0
+    var players:[Player] = []
+    repeat
+    {
+        print("Enter number of players(2..8):")
+        if let input = readLine()
+        {
+            if let int = Int(input)
+            {
+               num_players = int 
+            }
+        }        
+    } while(num_players < 2 || num_players > 8)
+    
+    for i in 1 ... num_players
+    {
+      while true
+      {
+        print("Enter name of player \(i):")
+        if let input = readLine()
+        {
+          if(input.length < 0)
+          {
+            players.append(Player(name:input,points:0))
+            break;
+          }
+        }
+      }
+    }
+    var new_game = true
+    while new_game = true
+    {
+      for i in 0..<num_players
+      {
+        players[i].reset()
+      }
+      var turn = 0
+      repeat
+      {
+        for p in players
+        {
+          print("\(p.name) - \(p.points) points")
+        }
+        print("\(players[turn%num_players].name)'s turn:")
+        var dice = Dice(green: 6, yellow: 4, red: 3)
+        var points = 0
+        var shotguns = 0
+        while dice.getCount() >= 3 && shotguns < 3
+        {
+          let d_arr = dice.draw(3)
+          var runners = false
+          for i in 0...2
+          {
+            let r = d_arr[i].0.roll()
+            if(r == "🧠")
+            {
+              points += 1
+            }
+            else if(r == "💥")
+            {
+              shotguns += 1
+            }
+            else
+            {
+              runners = true
+              if(d_arr[i].1 == "green")
+              {
+                dice.green += 1
+              }
+              else if(d_arr[i].1 == "yellow")
+              {
+                dice.yellow += 1
+              }
+              else
+              {
+                dice.red += 1
+              }
+            }
+            print("Die#\(i+1)(\(d_arr[i].1)) - \(r)")
+          }
+          if(shotguns > 2)
+          {
+            break;
+          }
+          if(runners == true)
+          {
+            var answer = ""
+            repeat
+            {
+              print("Roll again(roll) / End Turn(end):")
+              if let input = readLine()
+              {
+                answer = input
+              }        
+            } while(answer != "roll" && answer != "end")
+            if(answer == "end")
+            {
+              players[turn%num_players].points += points
+              break;
+            }
+          }
+          else
+          {
+            players[turn%num_players].points += points
+            break;
+          }
+        }
+        turn += 1
+      } while(!(turn%num_players == 0 && winner(players).count != 0))
+      print("The winner is \(winner(players))")
+      var answer = ""
+      repeat
+      {
+        print("New game? (yes/no):")
+        if let input = readLine()
+        {
+          answer = input
+        }        
+      } while(answer != "yes" && answer != "no")
+      if(answer == "no")
+      {
+        new_game = false 
+      }
+    }
+}
+
+game()
