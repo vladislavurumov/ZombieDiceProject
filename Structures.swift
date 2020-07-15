@@ -19,3 +19,18 @@ struct Player
         self.points = 0
     }
 }
+
+struct Die
+{
+    let brains: UInt
+    let runners: UInt
+    let shotguns: UInt
+    let sum: UInt
+    init(brains: UInt, runners: UInt, shotguns: UInt)
+    {
+        self.brains = brains
+        self.runners = runners
+        self.shotguns = shotguns
+        self.sum = brains + runners + shotguns
+    }
+}
