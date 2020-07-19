@@ -146,7 +146,7 @@ func game()
       }
     }
     var new_game = true
-    while new_game = true
+    while new_game == true
     {
       for i in 0..<num_players
       {
